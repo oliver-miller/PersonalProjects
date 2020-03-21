@@ -1,7 +1,7 @@
 import acm.program.*;
 
 @SuppressWarnings("serial")
-public class Player extends ConsoleProgram{
+public class Player extends ConsoleProgram {
 	
 	private int score;
 	private String name;

@@ -14,9 +14,9 @@ public class Pong extends GraphicsProgram{
 	private static final int DISPLAY_WIDTH = 1700;
 	private static final int DISPLAY_HEIGHT = 850;
 	
-	// IntFields for player's scores
-	private static IntField p1Score;
-	private static IntField p2Score;
+	// GLabel for player's scores
+	private static GLabel p1Score;
+	private static GLabel p2Score;
 	
 	// GRect for the center field line
 	private GRect centerLine;
@@ -26,8 +26,8 @@ public class Pong extends GraphicsProgram{
 	 */
 	private GOval ball;
 	private static final int BALL_DIAMETER = 50;
-	private static int BALL_SPEED_X = 1;
-	private static int BALL_SPEED_Y = 1;
+	private static int BALL_SPEED_X = 3;
+	private static int BALL_SPEED_Y = 3;
 	
 	/*
 	 * Players
@@ -68,6 +68,7 @@ public class Pong extends GraphicsProgram{
 	 * Method that controls the game.
 	 */
 	public void runGame() {
+		randomizeStartDirection();
 		while(p1.getScore() < 7 || p2.getScore() < 7) {
 			ball.move(BALL_SPEED_X, BALL_SPEED_Y);
 			detectCollision();
@@ -85,8 +86,8 @@ public class Pong extends GraphicsProgram{
 		setupField();
 		setupBall();
 		setupPlayers();
-		p1Score = new IntField(0);
-		p2Score = new IntField(0);
+		p1Score = new GLabel("Player 1: " + p1.getScore());
+		p2Score = new GLabel("Player 2: " + p2.getScore());
 		addKeyListeners();
 		add(p2Score, NORTH);
 		add(p1Score, NORTH);
@@ -115,37 +116,35 @@ public class Pong extends GraphicsProgram{
 		if((ball.getX() + ball.getHeight()) == p2Rect.getX() && (ball.getY() + ball.getHeight()) > p2Rect.getY() && ball.getY() < (p2Rect.getY() + p2Rect.getHeight())) BALL_SPEED_X *= -1;
 	}
 	
-	
-	
-	
-	
-	
-	
+	private void randomizeStartDirection() {
+		if(Math.random() > 0.5) BALL_SPEED_Y *= -1;
+		if(Math.random() > 0.5) BALL_SPEED_X *= -1;
+	}
 	
 	/**
-	 * Player 1 (on the left) scores a goal
+	 * Player 1 (on the left) scores a goal.
 	 */
 	private void leftGoalScored() {
 		p1.p1GoalScored();
 		ball.setLocation(DISPLAY_WIDTH/3, DISPLAY_HEIGHT/2);
 		pause(3000);
-		BALL_SPEED_X = 1;
-		BALL_SPEED_Y = 1;
+		BALL_SPEED_X = 3;
+		BALL_SPEED_Y = 3;
 	}
 	
 	/**
-	 * Player 2 (on the right) scores a goal
+	 * Player 2 (on the right) scores a goal.
 	 */
 	private void rightGoalScored() {
 		p2.p2GoalScored();
 		ball.setLocation(DISPLAY_WIDTH*2/3, DISPLAY_HEIGHT/2);
 		pause(3000);
-		BALL_SPEED_X = -1;
-		BALL_SPEED_Y = -1;
+		BALL_SPEED_X = -3;
+		BALL_SPEED_Y = -3;
 	}
 	
 	/**
-	 * Setup display size
+	 * Setup display size.
 	 */
 	public void setupField() {
 		centerLine = new GRect(DISPLAY_WIDTH/2, 0, 3, DISPLAY_HEIGHT);
@@ -154,7 +153,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Setup ball
+	 * Setup ball.
 	 */
 	private void setupBall() {
 		ball = new GOval((DISPLAY_WIDTH - BALL_DIAMETER)/2, DISPLAY_HEIGHT/2, BALL_DIAMETER, BALL_DIAMETER);
@@ -164,7 +163,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Setup players
+	 * Setup players.
 	 */
 	private void setupPlayers() {
 		// Player 1
@@ -187,7 +186,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Lookout for key presses
+	 * Lookout for key presses.
 	 */
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == 87) p1Rect.move(0, -10);
@@ -198,7 +197,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Getter for P1 IntField
+	 * Getter for P1 IntField.
 	 * @return P1 IntField
 	 */
 	public static IntField getP1IntField() {
@@ -206,7 +205,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Getter for P2 IntField
+	 * Getter for P2 IntField.
 	 * @return P2 IntField
 	 */
 	public static IntField getP2IntField() {
@@ -214,7 +213,7 @@ public class Pong extends GraphicsProgram{
 	}
 	
 	/**
-	 * Countdown to start the game
+	 * Countdown to start the game.
 	 */
 	private void startCountdown() {
 		countdown = new GLabel("3");
