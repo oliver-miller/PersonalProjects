@@ -14,9 +14,9 @@ public class Pong extends GraphicsProgram{
 	private static final int DISPLAY_WIDTH = 1700;
 	private static final int DISPLAY_HEIGHT = 850;
 	
-	// GLabel for player's scores
-	private static GLabel p1Score;
-	private static GLabel p2Score;
+	// IntFields for player's scores
+	private static IntField p1Score;
+	private static IntField p2Score;
 	
 	// GRect for the center field line
 	private GRect centerLine;
@@ -86,8 +86,8 @@ public class Pong extends GraphicsProgram{
 		setupField();
 		setupBall();
 		setupPlayers();
-		p1Score = new GLabel("Player 1: " + p1.getScore());
-		p2Score = new GLabel("Player 2: " + p2.getScore());
+		p1Score = new IntField(0);
+		p2Score = new IntField(0);
 		addKeyListeners();
 		add(p2Score, NORTH);
 		add(p1Score, NORTH);
