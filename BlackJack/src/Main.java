@@ -30,23 +30,9 @@ public class Main {
 		/*
 		 * Welcome banner
 		 */
-		System.out.print("===================================\n");
+		System.out.print("=======================================\n");
 		System.out.print("WELCOME TO BLACKJACK!");
-		System.out.print("\n===================================\n\n");
-		
-		// Start first round
-		startRound();
-	}
-	
-	/**
-	 * Starts round: Introduction and player names. 
-	 */
-	private static void startRound() {
-		/*
-		 * Create and shuffle a deck at the start of every round
-		 */
-		deck.create();
-		deck.shuffle();
+		System.out.print("\n=======================================\n\n");
 		
 		/*
 		 * Prompt user to begin game when they are ready
@@ -59,6 +45,20 @@ public class Main {
 			ready = kb.nextLine();
 			ready = ready.toUpperCase();
 		}
+		
+		// Start first round
+		startRound();
+	}
+	
+	/**
+	 * Starts round. 
+	 */
+	private static void startRound() {
+		/*
+		 * Create and shuffle a deck at the start of every round
+		 */
+		deck.create();
+		deck.shuffle();
 		
 		/*
 		 * Initiate sequence of events for a round of blackjack.
@@ -74,7 +74,9 @@ public class Main {
 				if(player.sumHand() <= 21) dealerTurn();
 			}
 		}
+		
 		finalOutcome();
+		if(anotherRound()) startRound();	
 	}
 	
 	/**
@@ -106,7 +108,10 @@ public class Main {
 			if(choice.equals("STAY")) break;
 			
 			// Hit
-			if(choice.equals("HIT")) player.addCard(deck.getNextCard());
+			if(choice.equals("HIT")) {
+				player.addCard(deck.getNextCard());
+				printHand();
+			}
 			// Check for bust
 			if(player.sumHand() > 21) {
 				// Check for aces
@@ -221,5 +226,33 @@ public class Main {
 		System.out.print("\nYou have " + player.getBank() + " dollars in your bank");
 		System.out.print("\nHow much would you like to bet? ");
 		wager = kb.nextInt();
+	}
+	
+	/**
+	 * Prompts user to see if they want to play another round. 
+	 */
+	private static boolean anotherRound() {
+		System.out.print("\nWould you like to play another round? Yes/No. ");
+		choice = kb.nextLine();
+		choice = choice.toUpperCase();
+		
+		if(choice.equals("YES")) {
+			resetHands();
+			return true;
+		}
+		
+		System.out.print("\n\n=======================================\n");
+		System.out.print("THANKS FOR PLAYING!");
+		System.out.print("\n=======================================");
+		
+		return false;
+	}
+	
+	/**
+	 * If player plays another round, remove all cards from dealer's and player's hands.
+	 */
+	private static void resetHands() {
+		dealer.getHand().clear();
+		player.getHand().clear();
 	}
 }
