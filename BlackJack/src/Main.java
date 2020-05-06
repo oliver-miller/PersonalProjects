@@ -95,7 +95,7 @@ public class Main {
 		 * Prompt choice until players "Stays"
 		 */
 		while(true) {
-			System.out.print("\n\nWhat would you like to do? 'Hit' or 'Stay'.");
+			System.out.println();
 			choice = kb.nextLine();
 			choice = choice.toUpperCase();
 			
