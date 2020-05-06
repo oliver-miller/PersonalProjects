@@ -6,10 +6,19 @@ import java.util.ArrayList;
  *
  */
 public class Player {
+	private int bank = 100;
 	private String name;
 	private int value;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
+	public int getBank() {
+		return bank;
+	}
+
+	public void setBank(int bank) {
+		this.bank += bank;
+	}
+
 	public String getName() {
 		return name;
 	}

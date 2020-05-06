@@ -5,13 +5,19 @@
  */
 public class Deck {
 	
+	// For dealing next card in the deck
 	private static int NEXT_CARD = 0;
+	
+	// Storing values for cards with unusual values
 	private final int FACE_CARD_VALUE = 10;
 	private final int[] ACE_CARD_VALUE = {11, 1};
+	
+	// Add more decks for less predictable hands
 	private final int NUM_OF_DECKS = 1;
 	private final String[] SUITS = {"Diamonds", "Hearts", "Clubs", "Spades"};
 	private final String[] RANKS = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
 	
+	// Deck to store all cards (52 * NUM_OF_DECKS)
 	public Card[] deck = new Card[NUM_OF_DECKS * SUITS.length * RANKS.length];
 
 	/**
@@ -62,6 +68,10 @@ public class Deck {
 		return deck[NEXT_CARD++];
 	}
 
+	/**
+	 * Used for changing ace value from 11 to 1.
+	 * @return Array containing array for ace values
+	 */
 	public int[] getAceValue() {
 		return ACE_CARD_VALUE;
 	}
