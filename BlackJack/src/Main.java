@@ -75,6 +75,9 @@ public class Main {
 			}
 		}
 		
+		/*
+		 * End of round (and start of a new one, potentially)
+		 */
 		finalOutcome();
 		if(anotherRound()) startRound();	
 	}
@@ -152,9 +155,6 @@ public class Main {
 			
 			i++;
 		}
-		
-		// Print final hand value
-		System.out.print("\nDealer's final hand value is " + dealer.sumHand());
 	}
 	
 	/**
@@ -193,11 +193,14 @@ public class Main {
 			System.out.print("\nDealer busted. Player wins!");
 		} else if (dealer.sumHand() > player.sumHand()) {
 			player.setBank(-wager);
+			System.out.print("\nDealer's hand: " + dealer.sumHand() + "\tPlayer's hand: " + player.sumHand());
 			System.out.print("\nDealer wins!");
 		} else if (player.sumHand() > dealer.sumHand()) {
 			player.setBank(wager);
+			System.out.print("\nDealer's hand: " + dealer.sumHand() + "\tPlayer's hand: " + player.sumHand());
 			System.out.print("\nPlayer wins!");
 		} else if (player.sumHand() == dealer.sumHand()) {
+			System.out.print("\nDealer's hand: " + dealer.sumHand() + "\tPlayer's hand: " + player.sumHand());
 			System.out.print("\nDraw!");
 		}
 		
@@ -226,21 +229,42 @@ public class Main {
 		System.out.print("\nYou have " + player.getBank() + " dollars in your bank");
 		System.out.print("\nHow much would you like to bet? ");
 		wager = kb.nextInt();
+		
+		/*
+		 * Make sure bet isn't more than the player has in the bank.
+		 */
+		while(wager > player.getBank()) {
+			System.out.print("\nSorry, you don't have that much money. Please enter an appropriate bet: ");
+			wager = kb.nextInt();
+		}
 	}
 	
 	/**
 	 * Prompts user to see if they want to play another round. 
+	 * <p> If they don't want to continue (or they don't have the money to continue, display their final bank and end the game.
 	 */
 	private static boolean anotherRound() {
-		System.out.print("\nWould you like to play another round? Yes/No. ");
-		choice = kb.nextLine();
-		choice = choice.toUpperCase();
-		
-		if(choice.equals("YES")) {
-			resetHands();
-			return true;
+		if(player.getBank() > 0) {
+			System.out.print("\nWould you like to play another round? Yes/No. ");
+			choice = kb.nextLine();
+			choice = choice.toUpperCase();
+			
+			if(choice.equals("YES")) {
+				resetHands();
+				return true;
+			}
+		} else {
+			System.out.print("Sorry, you have run out money and can not play any more rounds.");
 		}
 		
+		System.out.print("\nYou ended with " +  player.getBank() + " dollars in the bank.");
+		if(player.getBank() > 100) {
+			System.out.print(" That's a profit of " + (player.getBank() - 100) + " dollars.");
+		} else if (player.getBank() < 100) {
+			System.out.print(" That's a loss of " + (100 - player.getBank()) + " dollars.");
+		} else {
+			System.out.print(" That's a profit of " + (player.getBank() - 100) + " dollars.");
+		}
 		System.out.print("\n\n=======================================\n");
 		System.out.print("THANKS FOR PLAYING!");
 		System.out.print("\n=======================================");
