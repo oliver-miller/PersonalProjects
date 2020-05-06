@@ -1,4 +1,8 @@
-
+/**
+ * Class that will be instantiated for every card. Each card will have a member for its rank, suit and value.
+ * @author Oliver
+ *
+ */
 public class Card {
 	
 	private String suit;
